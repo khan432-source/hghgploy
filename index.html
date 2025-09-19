@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ployx - Coming Soon</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap');
+
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Orbitron', sans-serif;
+      color: #fff;
+      background: linear-gradient(-45deg, #1a1a1a, #0f2027, #2c5364, #0f0c29);
+      background-size: 400% 400%;
+      animation: gradientBG 12s ease infinite;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .container {
+      text-align: center;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 3rem;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      margin-bottom: 10px;
+      color: #00e5ff;
+      text-shadow: 0px 0px 15px rgba(0,229,255,0.8);
+    }
+
+    p {
+      font-size: 1.2rem;
+      margin-bottom: 25px;
+      color: #bbb;
+    }
+
+    input[type="email"] {
+      padding: 12px;
+      border-radius: 25px;
+      border: none;
+      outline: none;
+      width: 250px;
+      font-size: 1rem;
+    }
+
+    button {
+      padding: 12px 25px;
+      margin-left: 10px;
+      border-radius: 25px;
+      border: none;
+      cursor: pointer;
+      background: #00e5ff;
+      color: #000;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #fff;
+      color: #000;
+    }
+
+    .social {
+      margin-top: 25px;
+    }
+
+    .social a {
+      margin: 0 10px;
+      color: #00e5ff;
+      font-size: 1.5rem;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    .social a:hover {
+      color: #fff;
+    }
+  </style>
+  <script src="https://kit.fontawesome.com/yourkitid.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>Ployx</h1>
+    <p>AI Prompts & Tech Innovation – Something Big is Coming Soon 🚀</p>
+    <form>
+      <input type="email" placeholder="Enter your email" required>
+      <button type="submit">Notify Me</button>
+    </form>
+    <div class="social">
+      <a href="#"><i class="fab fa-twitter"></i></a>
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-github"></i></a>
+    </div>
+  </div>
+</body>
+</html>
