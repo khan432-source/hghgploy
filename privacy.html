@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> Star Sports </title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { min-height: 100vh; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #fff; overflow-x: hidden; }
+
+    body {
+      background: linear-gradient(270deg, #1a1a1d, #232526, #0f2027);
+      background-size: 600% 600%;
+      animation: gradientBG 20s ease infinite;
+      position: relative;
+      overflow-y: auto;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(0,198,255,0.7);
+      box-shadow: 0 0 20px rgba(0,198,255,0.7), 0 0 40px rgba(0,198,255,0.5);
+      bottom: -50px;
+      animation-name: float;
+      animation-timing-function: linear;
+      animation-iteration-count: infinite;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0) scale(0.3); opacity: 0; }
+      50% { opacity: 1; }
+      100% { transform: translateY(-110vh) scale(1); opacity: 0; }
+    }
+
+    .container {
+      position: relative;
+      z-index: 2;
+      max-width: 800px;
+      margin: 80px auto;
+      padding: 40px 30px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 20px;
+      box-shadow: 0 0 40px rgba(0,0,0,0.5);
+      backdrop-filter: blur(12px);
+    }
+
+    h1, h2 {
+      font-weight: bold;
+      margin-bottom: 20px;
+      color: #00c6ff;
+    }
+
+    p, li {
+      font-size: 1rem;
+      line-height: 1.6;
+      margin-bottom: 15px;
+      color: #ddd;
+    }
+
+    ul {
+      margin-left: 20px;
+      margin-bottom: 20px;
+    }
+
+    a {
+      color: #00c6ff;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 600px) {
+      .container { padding: 25px; margin: 50px 20px; }
+      h1 { font-size: 2rem; }
+      h2 { font-size: 1.2rem; }
+      p, li { font-size: 0.95rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="particles">
+    <div class="particle" style="width:6px;height:6px;left:5%;animation-duration:18s;"></div>
+    <div class="particle" style="width:10px;height:10px;left:12%;animation-duration:22s;"></div>
+    <div class="particle" style="width:8px;height:8px;left:20%;animation-duration:20s;"></div>
+    <div class="particle" style="width:14px;height:14px;left:28%;animation-duration:25s;"></div>
+    <div class="particle" style="width:12px;height:12px;left:35%;animation-duration:26s;"></div>
+    <div class="particle" style="width:7px;height:7px;left:42%;animation-duration:19s;"></div>
+    <div class="particle" style="width:16px;height:16px;left:50%;animation-duration:28s;"></div>
+    <div class="particle" style="width:9px;height:9px;left:58%;animation-duration:23s;"></div>
+    <div class="particle" style="width:11px;height:11px;left:65%;animation-duration:27s;"></div>
+    <div class="particle" style="width:13px;height:13px;left:72%;animation-duration:24s;"></div>
+    <div class="particle" style="width:10px;height:10px;left:80%;animation-duration:22s;"></div>
+    <div class="particle" style="width:8px;height:8px;left:88%;animation-duration:21s;"></div>
+  </div>
+
+  <div class="container">
+    <h1>Privacy Policy</h1>
+
+    <p>
+      This privacy policy applies to the <strong>Star Sports</strong> app ("Application")
+      as a free service.
+      This service is intended for use "AS IS".
+    </p>
+
+    <h2>Information Collection and Use</h2>
+    <p>The Application collects information when you download and use it, which may include:</p>
+    <ul>
+      <li>Your device's IP address</li>
+      <li>Pages you visit in the Application and the time spent</li>
+      <li>The operating system of your device</li>
+    </ul>
+
+    <p>
+      The Application does not collect precise location data.
+      For better service, you may provide personally identifiable information.
+      Information is retained and used as described in this policy.
+    </p>
+
+    <h2>Third-Party Access</h2>
+    <p>Only aggregated, anonymized data is transmitted to third-party services to improve the Application. The Application may use:</p>
+    <ul>
+      <li>Google Play Services</li>
+      <li>AdMob</li>
+      <li>Google Analytics for Firebase</li>
+      <li>Unity</li>
+      <li>AppLovin</li>
+    </ul>
+
+    <p>
+      Information may also be disclosed when required by law or to protect rights and safety.
+    </p>
+
+    <h2>Opt-Out Rights</h2>
+    <p>You can stop all information collection by uninstalling the Application using your device’s standard uninstall process.</p>
+
+    <h2>Data Retention Policy</h2>
+    <p>
+      Data is retained as long as you use the Application.
+      If you wish to request deletion, please contact the Service Provider.
+    </p>
+
+    <h2>Children</h2>
+    <p>
+      The Application does not knowingly collect personal information from children under the age of 13.
+      If such data is discovered, it will be deleted immediately.
+    </p>
+
+    <h2>Security</h2>
+    <p>
+      We use commercially acceptable means of protecting your information through physical,
+      electronic, and procedural safeguards.
+    </p>
+
+    <h2>Changes</h2>
+    <p>
+      This Privacy Policy may be updated from time to time.
+      Continued use of the Application indicates acceptance of any changes.
+    </p>
+
+    <h2>Your Consent</h2>
+    <p>
+      By using the Application, you consent to this Privacy Policy.
+    </p>
+  </div>
+
+</body>
+</html>
