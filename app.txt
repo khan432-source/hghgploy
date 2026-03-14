@@ -1,0 +1,74 @@
+[
+    {
+        "id": "1",
+        "ads_data": "{\"sdk_key\":\"ghhdhh\",\"banner_ad_id\":\"hhhhjsgt\",\"inter_ad_id\":\"hhhjh\",\"native_ad_id\":\"hygstgsh\"}",
+        "download_url": "https:\/\/example.com\/download.apk",
+        "web_url": "https:\/\/example.com",
+        "app_version": "5",
+        "message": "New update available!",
+        "message_url": "https:\/\/example.com\/update",
+        "share_message": "Share Message",
+        "bottom_visible": "yes",
+        "msg_visible": "yes"
+    },
+    {
+        "id": "2",
+        "ads_data": "{}",
+        "download_url": "https:\/\/example.com\/download.apk",
+        "web_url": "https:\/\/example.com",
+        "app_version": "5",
+        "message": "New update available!",
+        "message_url": "https:\/\/example.com\/update",
+        "share_message": "Share Message",
+        "bottom_visible": "yes",
+        "msg_visible": "yes"
+    },
+    {
+        "id": "3",
+        "ads_data": "{}",
+        "download_url": "https:\/\/example.com\/download.apk",
+        "web_url": "https:\/\/example.com",
+        "app_version": "5",
+        "message": "New update available!",
+        "message_url": "https:\/\/example.com\/update",
+        "share_message": "Share Message",
+        "bottom_visible": "yes",
+        "msg_visible": "yes"
+    },
+    {
+        "id": "4",
+        "ads_data": "{}",
+        "download_url": "https:\/\/example.com\/download.apk",
+        "web_url": "https:\/\/example.com",
+        "app_version": "5",
+        "message": "New update available!",
+        "message_url": "https:\/\/example.com\/update",
+        "share_message": "Share Message",
+        "bottom_visible": "yes",
+        "msg_visible": "yes"
+    },
+    {
+        "id": "5",
+        "ads_data": "{}",
+        "download_url": "https:\/\/example.com\/download.apk",
+        "web_url": "https:\/\/example.com",
+        "app_version": "5",
+        "message": "New update available!",
+        "message_url": "https:\/\/example.com\/update",
+        "share_message": "Share Message",
+        "bottom_visible": "yes",
+        "msg_visible": "yes"
+    },
+    {
+        "id": "6",
+        "ads_data": "{}",
+        "download_url": "https:\/\/example.com\/download.apk",
+        "web_url": "https:\/\/example.com",
+        "app_version": "5",
+        "message": "New update available!",
+        "message_url": "https:\/\/example.com\/update",
+        "share_message": "Share Message",
+        "bottom_visible": "yes",
+        "msg_visible": "yes"
+    }
+]
