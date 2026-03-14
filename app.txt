@@ -9,7 +9,7 @@
         "message_url": "https:\/\/example.com\/update",
         "share_message": "Share Message",
         "bottom_visible": "yes",
-        "msg_visible": "yes"
+        "msg_visible": "no"
     },
     {
         "id": "2",
