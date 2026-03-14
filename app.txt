@@ -8,7 +8,7 @@
         "message": "New update available!",
         "message_url": "https:\/\/example.com\/update",
         "share_message": "Share Message",
-        "bottom_visible": "yes",
+        "bottom_visible": "no",
         "msg_visible": "no"
     },
     {
