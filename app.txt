@@ -2,7 +2,7 @@
     {
         "id": "1",
         "ads_data": "{\"sdk_key\":\"ghhdhh\",\"banner_ad_id\":\"hhhhjsgt\",\"inter_ad_id\":\"hhhjh\",\"native_ad_id\":\"hygstgsh\"}",
-        "download_url": "https:\/\/example.com\/download.apk",
+        "download_url": "https:\/\/play.google.com\/store\/apps\/details?id=com.cloudy.cricket.urdu",
         "web_url": "https:\/\/example.com",
         "app_version": "0",
         "message": "New update available!",
