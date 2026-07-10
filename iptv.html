@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Live Events — Channel List</title>
+<style>
+  :root{
+    --bg:#0b0e14; --panel:#131824; --panel2:#1a2030; --line:#232c3f;
+    --text:#e6ebf5; --muted:#8b96ad; --accent:#4f8cff; --accent2:#3a6fe0;
+    --ok:#27c08a; --radius:14px;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;height:100%}
+  body{background:var(--bg);color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    display:flex;flex-direction:column;height:100dvh}
+  header{position:sticky;top:0;z-index:10;
+    background:linear-gradient(180deg,var(--bg) 60%,rgba(11,14,20,.85));
+    padding:16px 16px 12px;border-bottom:1px solid var(--line);backdrop-filter:blur(8px)}
+  .titlebar{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+  .titlebar h1{font-size:17px;font-weight:700;margin:0;letter-spacing:.2px;flex:1}
+
+  .server{
+    appearance:none;-webkit-appearance:none;
+    background:var(--panel2);color:var(--text);
+    border:1px solid var(--line);border-radius:10px;
+    padding:9px 34px 9px 14px;font-size:13px;font-weight:600;cursor:pointer;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%238b96ad' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+    background-repeat:no-repeat;background-position:right 11px center;
+    outline:none;transition:border-color .15s;max-width:55%;
+  }
+  .server:focus{border-color:var(--accent)}
+
+  .searchwrap{position:relative}
+  .searchwrap svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);opacity:.5}
+  #search{width:100%;padding:13px 14px 13px 42px;background:var(--panel);
+    border:1px solid var(--line);border-radius:var(--radius);color:var(--text);
+    font-size:15px;outline:none;transition:border-color .15s,box-shadow .15s}
+  #search:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(79,140,255,.15)}
+  #search::placeholder{color:var(--muted)}
+  .meta{display:flex;justify-content:flex-end;margin-top:8px}
+  .count{font-size:12px;color:var(--muted)}
+
+  main{flex:1;overflow-y:auto;padding:12px 16px 28px}
+  .list{display:flex;flex-direction:column;gap:8px;max-width:760px;margin:0 auto}
+  .row{display:flex;align-items:center;gap:12px;background:var(--panel);
+    border:1px solid var(--line);border-radius:var(--radius);padding:12px 12px 12px 14px;
+    transition:border-color .15s,background .15s}
+  .row:hover{border-color:#2d3852}
+  .name{flex:1;font-size:14.5px;line-height:1.35;word-break:break-word}
+  .copy{flex-shrink:0;display:inline-flex;align-items:center;gap:7px;background:var(--accent);
+    color:#fff;border:none;cursor:pointer;padding:9px 14px;border-radius:10px;font-size:13px;
+    font-weight:600;transition:background .15s,transform .08s}
+  .copy:hover{background:var(--accent2)}
+  .copy:active{transform:scale(.96)}
+  .copy.copied{background:var(--ok)}
+  .copy svg{display:block}
+
+  .state{text-align:center;color:var(--muted);padding:48px 16px;font-size:14px;max-width:760px;margin:0 auto}
+  .spinner{width:26px;height:26px;border:3px solid var(--line);border-top-color:var(--accent);
+    border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 14px}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .retry{margin-top:14px;background:var(--panel2);color:var(--text);border:1px solid var(--line);
+    padding:9px 16px;border-radius:10px;cursor:pointer;font-size:13px;font-weight:600}
+  .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);
+    background:var(--ok);color:#fff;padding:11px 20px;border-radius:999px;font-size:13.5px;
+    font-weight:600;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;
+    z-index:50;box-shadow:0 8px 24px rgba(0,0,0,.4)}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  main::-webkit-scrollbar{width:10px}
+  main::-webkit-scrollbar-thumb{background:var(--panel2);border-radius:8px;border:2px solid var(--bg)}
+</style>
+</head>
+<body>
+<header>
+  <div class="titlebar">
+    <h1>Live Events</h1>
+    <select id="server" class="server"></select>
+  </div>
+  <div class="searchwrap">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+    <input id="search" type="text" placeholder="Search channels…" autocomplete="off" spellcheck="false">
+  </div>
+  <div class="meta"><span class="count" id="count">Loading…</span></div>
+</header>
+
+<main>
+  <div id="list" class="list"></div>
+  <div id="state" class="state"><div class="spinner"></div>Loading channel list…</div>
+</main>
+
+<div class="toast" id="toast">Copied ✓</div>
+
+<script>
+/* ============================================================
+   👇  YAHAN APNE SERVERS KE M3U LINKS DAALO
+   - name : dropdown me jo dikhega
+   - url  : us server ka m3u/m3u8 link
+   - jitne servers chahiye utni lines add/copy kar lo
+   ============================================================ */
+const SOURCES = [
+  { name: "Server 1", url: "https://raw.githubusercontent.com/doms9/iptv/refs/heads/default/M3U8/events.m3u8" },
+  { name: "Server 3", url: "https://thanks-to-veer.saqlainhaider8198.workers.dev/live.m3u[sk-event]?ua=sktechtv" },   // <-- yahan Server 2 ka link daalo
+  // { name: "Server 3", url: "https://...." },   // <-- aur chahiye to is line ko uncomment karke copy karo
+];
+/* ============================================================
+   👆  BAS ITNA HI EDIT KARNA HAI. NEECHE KUCH NA CHEDO.
+   ============================================================ */
+
+const listEl   = document.getElementById('list');
+const stateEl  = document.getElementById('state');
+const countEl  = document.getElementById('count');
+const searchEl = document.getElementById('search');
+const toastEl  = document.getElementById('toast');
+const serverEl = document.getElementById('server');
+
+let channels = [];
+
+// Build Android-format link:  URL?|Referer=..&Origin=..&User-agent=..
+function androidLink(ch){
+  let headers = [];
+  if(ch.referrer) headers.push("Referer="    + ch.referrer);
+  if(ch.origin)   headers.push("Origin="      + ch.origin);
+  if(ch.ua)       headers.push("User-agent="  + ch.ua);
+  if(!headers.length) return ch.url;
+  const sep = ch.url.includes("?") ? "|" : "?|";
+  return ch.url + sep + headers.join("&");
+}
+
+function parseM3U(text){
+  const lines = text.split(/\r?\n/);
+  const out = [];
+  let cur = null;
+  for(let raw of lines){
+    const line = raw.trim();
+    if(!line) continue;
+    if(line.startsWith("#EXTINF")){
+      const name = line.slice(line.lastIndexOf(",") + 1).trim();
+      cur = { name, referrer:"", origin:"", ua:"", url:"" };
+    } else if(line.startsWith("#EXTVLCOPT:http-referrer=")){
+      if(cur) cur.referrer = line.split("=").slice(1).join("=").trim();
+    } else if(line.startsWith("#EXTVLCOPT:http-origin=")){
+      if(cur) cur.origin = line.split("=").slice(1).join("=").trim();
+    } else if(line.startsWith("#EXTVLCOPT:http-user-agent=")){
+      if(cur) cur.ua = line.split("=").slice(1).join("=").trim();
+    } else if(!line.startsWith("#")){
+      if(cur){ cur.url = line; out.push(cur); cur = null; }
+    }
+  }
+  return out;
+}
+
+function render(filter=""){
+  const f = filter.trim().toLowerCase();
+  const items = f ? channels.filter(c => c.name.toLowerCase().includes(f)) : channels;
+  listEl.innerHTML = "";
+  if(!items.length){
+    stateEl.style.display = "block";
+    stateEl.innerHTML = channels.length ? "No channels match your search." : "No channels found.";
+    return;
+  }
+  stateEl.style.display = "none";
+  const frag = document.createDocumentFragment();
+  items.forEach((ch) => {
+    const row = document.createElement('div');
+    row.className = "row";
+
+    const name = document.createElement('div');
+    name.className = "name";
+    name.textContent = ch.name;
+
+    const btn = document.createElement('button');
+    btn.className = "copy";
+    btn.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span>';
+    btn.addEventListener('click', () => copyLink(ch, btn));
+
+    row.appendChild(name);
+    row.appendChild(btn);
+    frag.appendChild(row);
+  });
+  listEl.appendChild(frag);
+}
+
+async function copyLink(ch, btn){
+  const link = androidLink(ch);
+  try{
+    await navigator.clipboard.writeText(link);
+  }catch(e){
+    const ta = document.createElement('textarea');
+    ta.value = link; ta.style.position='fixed'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.select();
+    try{ document.execCommand('copy'); }catch(_){}
+    document.body.removeChild(ta);
+  }
+  btn.classList.add('copied');
+  btn.querySelector('span').textContent = "Copied";
+  showToast();
+  setTimeout(()=>{
+    btn.classList.remove('copied');
+    btn.querySelector('span').textContent = "Copy";
+  }, 1400);
+}
+
+let toastTimer;
+function showToast(){
+  toastEl.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>toastEl.classList.remove('show'), 1400);
+}
+
+async function load(url){
+  channels = [];
+  stateEl.style.display = "block";
+
+  if(!url){
+    countEl.textContent = "—";
+    stateEl.innerHTML = "Is server ka link abhi add nahi kiya.<br>" +
+      "<small style='opacity:.7'>File ke top me SOURCES me iska url daalo.</small>";
+    listEl.innerHTML = "";
+    return;
+  }
+
+  stateEl.innerHTML = '<div class="spinner"></div>Loading channel list…';
+  countEl.textContent = "Loading…";
+  try{
+    const res = await fetch(url, { cache:"no-store" });
+    const text = await res.text();
+    const snippet = text.slice(0,140).replace(/</g,"&lt;").replace(/\s+/g," ").trim();
+    if(!res.ok){
+      throw new Error("HTTP " + res.status + " — " + snippet);
+    }
+    if(!text.trim().startsWith("#EXTM3U")){
+      // Server ne m3u ki jagah kuch aur bheja (UA block / Cloudflare challenge / redirect)
+      throw new Error("Playlist nahi mili. Server ne bheja: " + snippet);
+    }
+    channels = parseM3U(text);
+    countEl.textContent = channels.length + " channels";
+    render(searchEl.value);
+  }catch(err){
+    countEl.textContent = "Error";
+    stateEl.style.display = "block";
+    stateEl.innerHTML = "Couldn't load the list.<br><small style='opacity:.7'>" +
+      (err.message||"network error") + "</small><br>" +
+      '<button class="retry" id="retryBtn">Retry</button>';
+    const rb = document.getElementById('retryBtn');
+    if(rb) rb.addEventListener('click', () => load(url));
+  }
+}
+
+function currentUrl(){
+  const i = parseInt(serverEl.value, 10) || 0;
+  return (SOURCES[i] && SOURCES[i].url) || "";
+}
+
+function initServers(){
+  serverEl.innerHTML = "";
+  SOURCES.forEach((s, i) => {
+    const opt = document.createElement('option');
+    opt.value = i;
+    opt.textContent = s.name || ("Server " + (i+1));
+    serverEl.appendChild(opt);
+  });
+  serverEl.addEventListener('change', () => {
+    searchEl.value = "";
+    load(currentUrl());
+  });
+}
+
+searchEl.addEventListener('input', () => render(searchEl.value));
+
+initServers();
+load(currentUrl());
+</script>
+</body>
+</html>
